@@ -4,12 +4,13 @@
   "version": "1.0",
   "description": "Быстрое сокращение ссылок через clck.ru",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "storage"
   ],
   "host_permissions": [
     "https://clck.ru/*"
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup/index.html"
   }
 }
