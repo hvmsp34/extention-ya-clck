@@ -4,6 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <style>
+    *:not(h1, h2, h3, h4, h5, h6) {
+      margin: 0;
+      padding: 0;
+    }
+
     :root {
       color-scheme: light dark;
 
@@ -29,13 +34,6 @@
       color: var(--text-color);
     }
 
-    h3 {
-      margin: 0 0 12px 0;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.2px;
-    }
-
     input {
       width: 100%;
       padding: 10px 12px;
@@ -56,12 +54,8 @@
       }
     }
 
-    .buttons-container {
-      display: flex;
-      justify-content: flex-end;
-    }
-
-    button {
+    button,
+    clck-shorten-button {
       padding: 10px 16px;
       border: none;
       border-radius: 6px;
@@ -87,25 +81,12 @@
       }
     }
 
-    #resultContainer {
-      margin-top: 16px;
-      display: none;
-      background-color: var(--card-bg);
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid var(--input-border);
-      word-break: break-all;
-      font-size: 13px;
-      animation: fadeIn 0.2s ease forwards;
-    }
+    [f-colomn] {
+      display: flex;
+      flex-direction: column;
 
-    #resultLink {
-      font-weight: 600;
-      color: var(--link-color);
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
+      [p-right] {
+        margin-left: auto
       }
     }
 
@@ -121,40 +102,8 @@
       }
     }
 
-    #resultLink {
-      font-weight: 600;
-      color: var(--link-color);
-      text-decoration: none;
-      cursor: pointer;
-      font-family: 'Cascadia Code', Consolas, 'DejaVu Sans Mono', Menlo, monospace;
-    }
 
-    .url-orig {
-      font-size: 10px;
-      opacity: 0.6;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 140px;
-      display: inline-block;
-      font-family: 'Cascadia Code', Consolas, 'DejaVu Sans Mono', Menlo, monospace;
-
-    }
-
-    .url-short {
-      color: var(--link-color, #1a73e8);
-      cursor: pointer;
-      font-weight: 600;
-      word-break: break-all;
-      font-family: 'Cascadia Code', Consolas, 'DejaVu Sans Mono', Menlo, monospace;
-
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-
-    .history-item {
+    clck-history li {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -164,18 +113,43 @@
       margin-bottom: 6px;
       font-size: 12px;
       border: 1px solid var(--input-border);
+
+      [orig] {
+        font-size: 10px;
+        opacity: 0.6;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
+        display: inline-block;
+        font-family: 'Cascadia Code', Consolas, 'DejaVu Sans Mono', Menlo, monospace;
+
+      }
+
+      [short] {
+        color: var(--link-color, #1a73e8);
+        cursor: pointer;
+        font-weight: 600;
+        word-break: break-all;
+        font-family: 'Cascadia Code', Consolas, 'DejaVu Sans Mono', Menlo, monospace;
+
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
-    #toast {
+    #notification {
       position: fixed;
-      bottom: 12px;
+      bottom: 2em;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: #323232;
+      background: var(--notification-bg-color);
       color: #fff;
       padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 12px;
+      border-radius: 2em;
+      font-size: 1.2rem;
       opacity: 0;
       transition: transform 0.2s, opacity 0.2s;
       pointer-events: none;
@@ -190,31 +164,26 @@
 </head>
 
 <body>
-
-  <div>
-    <h3>Сократить ссылку</h3>
-    <input type="text" id="urlInput" placeholder="Вставьте длинную ссылку...">
-    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-      <div id="resultContainer">
-        <span id="resultLink"></span>
-      </div>
-      <div class="buttons-container">
-        <button id="shortenBtn">Сократить</button>
-      </div>
+  <main>
+    <div f-colomn>
+      <h3>Сократить ссылку</h3>
+      <input id="urlInput" placeholder="Вставьте длинную ссылку...">
+      <clck-shorten-button p-right>Сократить</clck-shorten-button>
     </div>
-  </div>
 
-  <div>
-    <h3>История сокращений</h3>
-    <ul id="historyWrapper"></ul>
-  </div>
+    <clck-history>
+      <h3>История сокращений</h3>
+      <ul></ul>
+    </clck-history>
+  </main>
 
-  <div id="toast">Скопировано в буфер!</div>
+  <div id="notification"></div>
 
-  <template id="historyItemTemplate">
-    <li class="history-item">
-      <span class="url-orig"></span>
-      <span class="url-short"></span>
+
+  <template id="templateItemHistory">
+    <li>
+      <span orig></span>
+      <span short></span>
     </li>
   </template>
 
