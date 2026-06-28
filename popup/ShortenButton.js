@@ -54,7 +54,7 @@ export default class ShortenButton extends HTMLElement {
       const data = await this.#apiRequest();
       await this.#localSave(data);
     } catch (error) {
-      showNotification(error.message || error, 5000);
+      showNotification(error.message || error, 'error', 5000);
       console.error(error);
     } finally {
       this.#setStateEnabled();
