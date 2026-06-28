@@ -1,4 +1,4 @@
-import { copyToClipboard, showNotification, getUrlHistory, setUrlHistory } from "./utils.js";
+import { copyToClipboard, showNotification, getUrlHistory, setUrlHistory, urlValidation } from "./utils.js";
 
 export default class ShortenButton extends HTMLElement {
   constructor() {
@@ -14,6 +14,11 @@ export default class ShortenButton extends HTMLElement {
   }
 
   #setStateDisabled() {
+    this.disabled = false;
+    this.textContent = 'Сократить';
+  }
+
+  #setStateInProgress() {
     this.disabled = true;
     this.textContent = 'Сокращаю...';
   }
@@ -26,8 +31,8 @@ export default class ShortenButton extends HTMLElement {
   async #apiRequest() {
     if (!urlInput) throw new Error('Поле ввода не найдено');
     const rawUrl = urlInput.value;
+    if (!await urlValidation(rawUrl)) throw new Error('Неверный формат ссылки. Убедитесь, что адрес начинается с http:// или https://');
     if (!rawUrl) throw new Error('Введите ссылку');
-
     const endpoint = 'https://clck.ru/--';
     const targetUrl = new URL(endpoint);
     targetUrl.searchParams.append('url', rawUrl);
@@ -49,7 +54,7 @@ export default class ShortenButton extends HTMLElement {
   }
 
   handleClick = async () => {
-    this.#setStateDisabled();
+    this.#setStateInProgress();
     try {
       const data = await this.#apiRequest();
       await this.#localSave(data);
