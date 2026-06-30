@@ -6,7 +6,7 @@ export default async function () {
   const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
   const { url } = tab;
   isValidInputUrl(url);
-  input.onclick = function () { this.select(); };
+  input.onfocus = function () { this.select(); };
   input.oninput = function () { isValidInputUrl(this.value); };
   console.log({ url, tab, input });
 }
