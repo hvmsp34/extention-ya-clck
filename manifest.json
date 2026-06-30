@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Ya-Clck",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Быстрое сокращение ссылок через clck.ru",
   "permissions": [
     "activeTab",

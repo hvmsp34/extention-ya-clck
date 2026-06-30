@@ -27,18 +27,5 @@ export async function setUrlHistory(urlHistory) {
 }
 
 export async function urlValidation(url) {
-  return !!/^https?:\/\/.{3,}\..{2,}/i.test(url);
-}
-
-export function isValidInputUrl(url) {
-  urlValidation(url)
-    .then(isValid => {
-      shortenButton.setAttribute('active', isValid);
-      if (!isValid) throw new Error('Работа с открытой страницей невозможна. Можете ввести URL самостоятельно, адрес должен начинаться с http:// или https://.');
-      urlInput.value = url;
-    })
-    .catch((error) => {
-      showNotification(error.message || error, 'normal', 10000);
-      console.error(error);
-    });
+  return !!/^https?:\/\/.{2,}\..{2,}/i.test(url);
 }
